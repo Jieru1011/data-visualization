@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Productivity & Digital Distraction</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #f5f3ef;
+    --bg-card: #ffffff;
+    --bg-tab: #eae7e1;
+    --bg-tab-hover: #e0ddd6;
+    --bg-tab-active: #ffffff;
+    --accent-1: #2e6b8a;
+    --accent-2: #7b5ea7;
+    --accent-3: #c26a3e;
+    --accent-4: #3e8a5e;
+    --text-primary: #2c2c2c;
+    --text-secondary: #6b6b6b;
+    --border-subtle: rgba(0,0,0,0.08);
+    --shadow-soft: 0 2px 16px rgba(0,0,0,0.06);
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'EB Garamond', 'Times New Roman', serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    padding: 52px 48px 0;
+    text-align: center;
+  }
+
+  .site-header h1 {
+    font-family: 'Times New Roman', 'EB Garamond', serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .site-header .subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+
+  .site-header .authors {
+    font-size: 13px;
+    color: var(--text-secondary);
+    opacity: 0.75;
+  }
+
+  /* ── Tab Navigation ── */
+  .tab-nav {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 36px 24px 0;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
+  }
+
+  .tab-btn {
+    font-family: 'Times New Roman', 'EB Garamond', serif;
+    font-size: 15px;
+    padding: 12px 26px;
+    border: 1px solid var(--border-subtle);
+    border-bottom: none;
+    background: var(--bg-tab);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-tab-hover);
+  }
+
+  .tab-btn.active {
+    color: var(--text-primary);
+    background: var(--bg-tab-active);
+    font-weight: 600;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    z-index: 12;
+  }
+
+  .tab-btn .tab-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  .tab-btn:nth-child(1) .tab-dot { background: var(--accent-1); }
+  .tab-btn:nth-child(2) .tab-dot { background: var(--accent-2); }
+  .tab-btn:nth-child(3) .tab-dot { background: var(--accent-3); }
+  .tab-btn:nth-child(4) .tab-dot { background: var(--accent-4); }
+
+  .tab-btn.active:nth-child(1) { border-top: 2.5px solid var(--accent-1); }
+  .tab-btn.active:nth-child(2) { border-top: 2.5px solid var(--accent-2); }
+  .tab-btn.active:nth-child(3) { border-top: 2.5px solid var(--accent-3); }
+  .tab-btn.active:nth-child(4) { border-top: 2.5px solid var(--accent-4); }
+
+  /* ── Tab Content ── */
+  .tab-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 16px 64px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab-panel {
+    display: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 0 8px 8px 8px;
+    padding: 40px 28px;
+    box-shadow: var(--shadow-card);
+    animation: fadeIn 0.35s ease;
+  }
+
+  .tab-panel.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Section titles ── */
+  .db-title {
+    font-family: 'Times New Roman', 'EB Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .db-description {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 36px;
+    max-width: 920px;
+  }
+
+  .chart-section {
+    margin-bottom: 48px;
+  }
+
+  .chart-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .chart-label {
+    font-family: 'Times New Roman', 'EB Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .chart-objective {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  /* ── Tableau embed ── */
+  .viz-frame {
+    width: 100%;
+    background: #fff;
+    border-radius: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 1;
+  }
+
+  .viz-frame iframe {
+    min-width: 1200px;
+    width: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* ── Divider ── */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle) 15%, var(--border-subtle) 85%, transparent);
+    margin: 40px 0;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    opacity: 0.55;
+  }
+
+  .combined-viz { margin-top: 8px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .site-header { padding: 32px 20px 0; }
+    .site-header h1 { font-size: 24px; }
+    .tab-btn { font-size: 13px; padding: 10px 14px; }
+    .tab-panel { padding: 24px 16px; }
+    .db-title { font-size: 18px; }
+    .chart-label { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Student Productivity &amp; Digital Distraction</h1>
+  <p class="subtitle">An Interactive Visual Exploration</p>
+  <p class="authors">Group 3 — Yilin Hou · Xiuxiu Lei · Ziyi Ye · Jieru Zhang · Juanyu Zhang</p>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="db1">
+    <span class="tab-dot"></span>Core Productivity Drivers
+  </button>
+  <button class="tab-btn" data-tab="db2">
+    <span class="tab-dot"></span>Digital Distraction
+  </button>
+  <button class="tab-btn" data-tab="db3">
+    <span class="tab-dot"></span>Efforts vs. Results
+  </button>
+  <button class="tab-btn" data-tab="db4">
+    <span class="tab-dot"></span>Profiles &amp; Exploration
+  </button>
+</nav>
+
+<div class="tab-container">
+
+  <!-- ═══════ DB1 ═══════ -->
+  <div class="tab-panel active" id="db1">
+    <h2 class="db-title">Core Productivity Drivers</h2>
+    <p class="db-description">
+      Which factors most directly influence student productivity? These three charts progress from a single-variable relationship to dose-response effects and finally to a two-variable interaction — revealing how study hours, sleep, and stress independently and jointly drive productivity.
+    </p>
+
+    <div class="chart-section">
+      <h3 class="chart-label">1. Study Hours vs. Productivity Score</h3>
+      <p class="chart-objective">Exploring the core relationship between time invested in studying and productivity outcomes.</p>
+      <div class="viz-frame">
+        <iframe src="https://public.tableau.com/views/task12_17764460319120/Task1?:language=zh-CN&:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="600"></iframe>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="chart-section">
+      <h3 class="chart-label">2. Sleep &amp; Productivity: A Dose-Response Relationship</h3>
+      <p class="chart-objective">Examining whether sleep duration has an incremental effect on productivity, and whether stress level moderates that effect.</p>
+      <div class="viz-frame">
+        <iframe src="https://public.tableau.com/views/task12_17764460319120/Task2?:language=zh-CN&:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="600"></iframe>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="chart-section">
+      <h3 class="chart-label">3. Stress × Study Hours Heatmap</h3>
+      <p class="chart-objective">Analyzing the interaction effect of stress and study duration — can heavy studying compensate for high stress?</p>
+      <div class="viz-frame">
+        <iframe src="https://public.tableau.com/views/DataVis_Project_DB1/Dashboard1?:language=en-US&:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="600"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ DB2 ═══════ -->
+  <div class="tab-panel" id="db2">
+    <h2 class="db-title">Digital Behavior &amp; Distraction Mechanisms</h2>
+    <p class="db-description">
+      Is total screen time the real culprit, or do specific apps matter more? These two charts dissect the same question from macro and micro perspectives — time allocation across productivity tiers versus a direct app-by-app comparison.
+    </p>
+
+    <div class="chart-section combined-viz">
+      <h3 class="chart-label">4 &amp; 5. Digital Time Budget &amp; The App Paradox</h3>
+      <p class="chart-objective">Chart 4 breaks down digital activity proportions by productivity tier. Chart 5 uses small multiples to reveal why overall phone use correlates negatively with productivity while individual apps do not.</p>
+      <div class="viz-frame">
+        <iframe src="https://public.tableau.com/views/Chart4and5_JuneZhang_21April/Dashboard-Chart4and5?:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="850"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ DB3 ═══════ -->
+  <div class="tab-panel" id="db3">
+    <h2 class="db-title">Academic Performance &amp; Behavioral Patterns</h2>
+    <p class="db-description">
+      Does effort actually translate into results? These charts confront the paradox between productivity and grades, and examine whether attendance and assignments are sufficient conditions for high productivity.
+    </p>
+
+    <div class="chart-section combined-viz">
+      <h3 class="chart-label">6 &amp; 7. The Grade Paradox &amp; Attendance–Assignment Analysis</h3>
+      <p class="chart-objective">Chart 6 reveals the near-zero correlation between final grades and productivity. Chart 7 uses a bubble chart to test whether attendance and assignment completion truly convert into productivity gains.</p>
+      <div class="viz-frame">
+        <iframe src="https://public.tableau.com/views/task67/2?:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="850"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ DB4 ═══════ -->
+  <div class="tab-panel" id="db4">
+    <h2 class="db-title">Group Profiles &amp; Personalized Exploration</h2>
+    <p class="db-description">
+      Moving from observation to action — what does a typical high-productivity student look like? Do age groups differ? And where would <em>you</em> land? These three charts synthesize all dimensions and hand control to the viewer.
+    </p>
+
+    <div class="chart-section">
+      <h3 class="chart-label">8. Student Lifestyle Profiles</h3>
+      <p class="chart-objective">Radar chart comparing behavioral profiles across productivity tiers — a holistic portrait of high vs. low productivity lifestyles.</p>
+      <div class="viz-frame">
+        <iframe src="https://public.tableau.com/views/finalproject_figure8/Dashboard1?:language=en-US&:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="600"></iframe>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="chart-section">
+      <h3 class="chart-label">9. Age Group Behavioral Comparison</h3>
+      <p class="chart-objective">Testing whether students of different ages exhibit significantly different digital habits, study behaviors, and productivity outcomes.</p>
+      <div class="viz-frame">
+        <iframe src="https://public.tableau.com/views/DataVis_Project_DB4/Dashboard2?:language=en-US&:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="600"></iframe>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="chart-section">
+      <h3 class="chart-label">10. Interactive What-If Simulator</h3>
+      <p class="chart-objective">Adjust study hours, sleep, phone usage, and stress to see the predicted productivity distribution of matching students — personalized exploration at your fingertips.</p>
+      <div class="viz-frame">
+        <div class='tableauPlaceholder' id='viz1776956842159' style='position: relative'>
+          <noscript>
+            <a href='#'><img alt='Dashboard 2' src='https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1_rss.png' style='border: none' /></a>
+          </noscript>
+          <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='finalproject_figure11/Dashboard2' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+          </object>
+        </div>
+        <script type='text/javascript'>
+          var divElement = document.getElementById('viz1776956842159');
+          var vizElement = divElement.getElementsByTagName('object')[0];
+          vizElement.style.width='100%';
+          vizElement.style.minWidth='1200px';
+          vizElement.style.height='827px';
+          var scriptElement = document.createElement('script');
+          scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+          vizElement.parentNode.insertBefore(scriptElement, vizElement);
+        </script>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  KU Leuven · Data Visualization Project · 2025
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
