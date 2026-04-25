@@ -358,37 +358,8 @@
     <div class="chart-section">
       <h3 class="chart-label">10. Interactive What-If Simulator</h3>
       <p class="chart-objective">Adjust study hours, sleep, phone usage, and stress to see the predicted productivity distribution of matching students — personalized exploration at your fingertips.</p>
-      <div class="viz-frame">
-        <div class='tableauPlaceholder' id='viz1776956842159' style='position: relative'>
-          <noscript>
-            <a href='#'><img alt='Dashboard 2' src='https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1_rss.png' style='border: none' /></a>
-          </noscript>
-          <object class='tableauViz' style='display:none;'>
-            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-            <param name='embed_code_version' value='3' />
-            <param name='site_root' value='' />
-            <param name='name' value='finalproject_figure11/Dashboard2' />
-            <param name='tabs' value='no' />
-            <param name='toolbar' value='yes' />
-            <param name='static_image' value='https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1.png' />
-            <param name='animate_transition' value='yes' />
-            <param name='display_static_image' value='yes' />
-            <param name='display_spinner' value='yes' />
-            <param name='display_overlay' value='yes' />
-            <param name='display_count' value='yes' />
-            <param name='language' value='en-US' />
-          </object>
-        </div>
-        <script type='text/javascript'>
-          var divElement = document.getElementById('viz1776956842159');
-          var vizElement = divElement.getElementsByTagName('object')[0];
-          vizElement.style.width='100%';
-          vizElement.style.minWidth='1200px';
-          vizElement.style.height='827px';
-          var scriptElement = document.createElement('script');
-          scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-          vizElement.parentNode.insertBefore(scriptElement, vizElement);
-        </script>
+      <div class="viz-frame" id="chart10-frame" style="min-height:827px;">
+        <p style="text-align:center;padding-top:400px;color:#999;font-size:14px;" id="chart10-loading">Loading chart...</p>
       </div>
     </div>
   </div>
@@ -402,6 +373,68 @@
 <script>
   const tabs = document.querySelectorAll('.tab-btn');
   const panels = document.querySelectorAll('.tab-panel');
+  let chart10Loaded = false;
+
+  function loadChart10() {
+    if (chart10Loaded) return;
+    chart10Loaded = true;
+
+    var container = document.getElementById('chart10-frame');
+    // Remove loading text
+    var loadingText = document.getElementById('chart10-loading');
+    if (loadingText) loadingText.remove();
+
+    // Create placeholder
+    var placeholder = document.createElement('div');
+    placeholder.className = 'tableauPlaceholder';
+    placeholder.id = 'viz_chart10_lazy';
+    placeholder.style.position = 'relative';
+
+    // Noscript fallback
+    var noscript = document.createElement('noscript');
+    noscript.innerHTML = '<a href="#"><img alt="Dashboard 2" src="https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1_rss.png" style="border:none" /></a>';
+    placeholder.appendChild(noscript);
+
+    // Object element
+    var obj = document.createElement('object');
+    obj.className = 'tableauViz';
+    obj.style.display = 'none';
+
+    var params = {
+      'host_url': 'https%3A%2F%2Fpublic.tableau.com%2F',
+      'embed_code_version': '3',
+      'site_root': '',
+      'name': 'finalproject_figure11/Dashboard2',
+      'tabs': 'no',
+      'toolbar': 'yes',
+      'static_image': 'https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1.png',
+      'animate_transition': 'yes',
+      'display_static_image': 'yes',
+      'display_spinner': 'yes',
+      'display_overlay': 'yes',
+      'display_count': 'yes',
+      'language': 'en-US'
+    };
+
+    for (var key in params) {
+      var p = document.createElement('param');
+      p.name = key;
+      p.value = params[key];
+      obj.appendChild(p);
+    }
+
+    placeholder.appendChild(obj);
+    container.appendChild(placeholder);
+
+    // Set size
+    obj.style.width = '1200px';
+    obj.style.height = '827px';
+
+    // Load Tableau JS API
+    var scriptEl = document.createElement('script');
+    scriptEl.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    obj.parentNode.insertBefore(scriptEl, obj);
+  }
 
   tabs.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -410,6 +443,11 @@
       panels.forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById(target).classList.add('active');
+
+      // Load Chart 10 only when DB4 tab becomes visible
+      if (target === 'db4') {
+        setTimeout(loadChart10, 500);
+      }
     });
   });
 </script>
