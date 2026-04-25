@@ -339,7 +339,7 @@
       <h3 class="chart-label">8. Student Lifestyle Profiles</h3>
       <p class="chart-objective">Radar chart comparing behavioral profiles across productivity tiers — a holistic portrait of high vs. low productivity lifestyles.</p>
       <div class="viz-frame">
-        <iframe src="https://public.tableau.com/views/finalproject_figure10/Dashboard1?:language=en-US&:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="800"></iframe>
+        <iframe src="https://public.tableau.com/views/finalproject_figure8/Dashboard1?:language=en-US&:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes" height="800"></iframe>
       </div>
     </div>
 
@@ -380,60 +380,17 @@
     chart10Loaded = true;
 
     var container = document.getElementById('chart10-frame');
-    // Remove loading text
     var loadingText = document.getElementById('chart10-loading');
     if (loadingText) loadingText.remove();
 
-    // Create placeholder
-    var placeholder = document.createElement('div');
-    placeholder.className = 'tableauPlaceholder';
-    placeholder.id = 'viz_chart10_lazy';
-    placeholder.style.position = 'relative';
-
-    // Noscript fallback
-    var noscript = document.createElement('noscript');
-    noscript.innerHTML = '<a href="#"><img alt="Dashboard 2" src="https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1_rss.png" style="border:none" /></a>';
-    placeholder.appendChild(noscript);
-
-    // Object element
-    var obj = document.createElement('object');
-    obj.className = 'tableauViz';
-    obj.style.display = 'none';
-
-    var params = {
-      'host_url': 'https%3A%2F%2Fpublic.tableau.com%2F',
-      'embed_code_version': '3',
-      'site_root': '',
-      'name': 'finalproject_figure11/Dashboard2',
-      'tabs': 'no',
-      'toolbar': 'yes',
-      'static_image': 'https://public.tableau.com/static/images/fi/finalproject_figure11/Dashboard2/1.png',
-      'animate_transition': 'yes',
-      'display_static_image': 'yes',
-      'display_spinner': 'yes',
-      'display_overlay': 'yes',
-      'display_count': 'yes',
-      'language': 'en-US'
-    };
-
-    for (var key in params) {
-      var p = document.createElement('param');
-      p.name = key;
-      p.value = params[key];
-      obj.appendChild(p);
-    }
-
-    placeholder.appendChild(obj);
-    container.appendChild(placeholder);
-
-    // Set size
-    obj.style.width = '1200px';
-    obj.style.height = '827px';
-
-    // Load Tableau JS API
-    var scriptEl = document.createElement('script');
-    scriptEl.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-    obj.parentNode.insertBefore(scriptEl, obj);
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://public.tableau.com/shared/GBMJ6Y9KZ?:embed=y&:showVizHome=no&:tabs=no&:toolbar=yes';
+    iframe.style.minWidth = '1200px';
+    iframe.style.width = '100%';
+    iframe.style.height = '827px';
+    iframe.style.border = 'none';
+    iframe.style.display = 'block';
+    container.appendChild(iframe);
   }
 
   tabs.forEach(btn => {
